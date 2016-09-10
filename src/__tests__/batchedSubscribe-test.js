@@ -71,8 +71,8 @@ describe('batchedSubscribe()', () => {
     });
     store.subscribe(listenerC);
 
-    store.dispatch({});
-    store.dispatch({});
+    store.dispatch({ type: 'foo' });
+    store.dispatch({ type: 'bar' });
 
     expect(listenerA.calls.length).toEqual(2);
     expect(listenerB.calls.length).toEqual(1);
