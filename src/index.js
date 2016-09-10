@@ -87,6 +87,7 @@ export function batchedSubscribe(batch) {
     const subscribeImmediate = store.subscribe;
 
     let batchDepth = 0;
+    let actionCount = 0;
     function dispatch(...dispatchArgs) {
       dispatchArgs.forEach((arg) => {
         if (arg.type) {
@@ -94,13 +95,16 @@ export function batchedSubscribe(batch) {
             batchDepth += 1;
           } else if (arg.type === POP) {
             batchDepth -= 1;
+          } else {
+            actionCount++;
           }
         }
       });
 
       const res = store.dispatch(...dispatchArgs);
 
-      if (batchDepth === 0) {
+      if (batchDepth === 0 && actionCount > 0) {
+        actionCount = 0;
         notifyListenersBatched();
       }
 
