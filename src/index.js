@@ -34,7 +34,7 @@ export function batchMiddleware({ dispatch }) {
     };
 }
 
-export function batchEnhancer(batch) {
+export function batchedSubscribe(batch) {
   if (typeof batch !== 'function') {
     throw new Error('Expected batch to be a function.');
   }
